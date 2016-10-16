@@ -34,6 +34,7 @@ def scrap_jars_and_save():
             else:
                 prefix = "Minecraft "
             inner_name = prefix + ".".join(name.split('.')[1:-1])
+            print "Scrapping Jar " + inner_name
             Jar.get_or_create(
                 name=name,
                 defaults={'type': parent.get('id'),
