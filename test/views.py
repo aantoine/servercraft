@@ -144,7 +144,15 @@ def command(_command, _server):
     if _command == "status":
         output = execute([app.config['SCRIPT'], "status", _server.name])
     elif _command == "start":
-        output = execute([app.config['SCRIPT'], "start", _server.name])
+        server_path = app.config['SERVERS_FOLDER'] + _server.name
+        java_path = app.config['JARS_FOLDER'] + _server.jar.path
+        jar_xmx = str(_server.xmx * _server.java_size)
+        jar_xms = str(_server.xms * _server.java_size)
+        sleep_time = str(10)
+
+        output = execute(
+            [app.config['SCRIPT'], "start", server_path, _server.name, java_path, jar_xmx, jar_xms, sleep_time])
+
     elif _command == "stop":
         output = execute([app.config['SCRIPT'], "stop", _server.name])
     return jsonify(output=output)
