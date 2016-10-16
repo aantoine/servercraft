@@ -145,7 +145,7 @@ def command(_command, _server):
         output = execute([app.config['SCRIPT'], "status", _server.name])
     elif _command == "start":
         server_path = app.config['SERVERS_FOLDER'] + _server.name
-        java_path = app.config['JARS_FOLDER'] + _server.jar.path
+        java_path = _server.jar.path
         jar_xmx = str(_server.xmx * _server.java_size)
         jar_xms = str(_server.xms * _server.java_size)
         sleep_time = str(10)
@@ -155,7 +155,7 @@ def command(_command, _server):
 
     elif _command == "stop":
         output = execute([app.config['SCRIPT'], "stop", _server.name])
-    return jsonify(output=output)
+    return jsonify(output=output[0:-1])
 
 
 @app.route('/server/<_server>')
