@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}
+    ServerCraft
+{% endblock %}
+{% block header %}
+    <span style="padding-left: 50px; padding-right: 50px">
+        Create Server
+    </span>
+{% endblock %}
+
+{% block body %}
+    <script type=text/javascript>
+      $(function() {
+        $('a#submit').bind('click', function(e) {
+            $.getJSON($SCRIPT_ROOT + '/jar/downloaded', {
+            jar: $('select[name="jar"]').val()
+            }, function(data) {
+                if(!data.result){
+                    $('div#body').prepend(
+                            "<div id='alert' class='alert alert-warning' " +
+                                "<p><img src='/static/img/ajax-loader.gif'>" +
+                                "&nbsp;&nbsp; Downloading Jar... This may take a while</p>" +
+                            "</div>");
+                    $.getJSON($SCRIPT_ROOT + '/jar/download', {
+                        jar: $('select[name="jar"]').val()
+                        }, function(data) {
+                            $('div#alert').remove();
+                            $( "#form" ).submit();
+                    });
+                } else {
+                    $( "#form" ).submit();
+                }
+            });
+          return false;
+        });
+      });
+    </script>
+    <form id="form" role="form" method="POST" action="{{ url_for('post_server') }}">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="name">Server Name</label>
+                    <input id="name" name="name" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="jar">Server Jar</label>
+                    <select id="jar" name="jar" class="form-control">
+                        {% for jar in jars %}
+                            <option value="{{ jar.id|e }}">{{ jar.name|e }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label for="size">Server memory size</label>
+                    <select id="size" name="size" class="form-control">
+                        <option value="1024">GB</option>
+                        <option value="1">MB</option>
+                    </select>
+                    <p class="help-block">Minimum and maximum memory size suffix.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="xms">Server XMS</label>
+                    <input id="xms" name="xms" class="form-control">
+                    <p class="help-block">Initial memory allocation pool.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="xmx">Server XMX</label>
+                    <input id="xmx" name="xmx" class="form-control">
+                    <p class="help-block">Maximum memory allocation pool.</p>
+                </div>
+            </div>
+        </div>
+        <!--<button type="submit" class="btn btn-default">Submit</button>-->
+        <a href="#" class="btn btn-default" role="button" id="submit">Submit</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}
+    ServerCraft
+{% endblock %}
+{% block header %}
+    <span style="padding-left: 50px; padding-right: 50px">
+        Servers
+    </span>
+{% endblock %}
+
+{% block body %}
+    <script src="/static/js/command.js"></script>
+    {% if server_success %}
+        <div class="alert alert-success" id="alert">
+            <strong>Success!</strong> Server has been created.</a>
+        </div>
+    {% endif %}
+    <div class="table-responsive">
+        <table class="my-table table table-hover">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Name</th>
+                    <th>Jar</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for server in servers %}
+                <tr>
+                    <td style="padding-left:20px;">
+                        <img
+                            id="{{ 'img' + server.id|e }}"
+                            {% if status[loop.index0] %}
+                                src="/static/img/online.png"
+                            {% else %}
+                                src="/static/img/offline.png"
+                            {% endif%}
+                            class="img-responsive" alt="Status"></td>
+                    <td>{{ server.name|e }}</td>
+                    <td>{{ server.jar.name|e }}</td>
+                    <td style="width:35%;">
+                        <button style="width:70px;" type="button" class="btn btn-default"
+                            id="{{ 'button_start' + server.id|e }}"
+                            onclick='command_exec("start","Starting","{{ server.id|e }}")'
+                            {% if status[loop.index0] %} disabled {% endif%}>Start</button>
+                        <button style="width:70px;" type="button" class="btn btn-default"
+                            id="{{ 'button_stop' + server.id|e }}"
+                            onclick='command_exec("stop","Stoping","{{ server.id|e }}")'
+                            {% if not status[loop.index0] %} disabled {% endif%}>Stop</button>
+                        <button style="width:70px;" type="button" class="btn btn-default"
+                            id="{{ 'button_restart' + server.id|e }}"
+                            onclick='command_exec("restart","Restarting","{{ server.id|e }}")'
+                            {% if not status[loop.index0] %} disabled {% endif%}>Restart</button>
+                        <a href="{{ (url_for('server', _server=server.id)) }}" class="btn btn-default"
+                           role="button" style="width:70px;">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ (url_for('create_server')) }}" class="btn btn-primary"
+                           role="button">
+            <i class="fa fa-fw fa-plus-square"></i>&nbsp;&nbsp;Add Server
+        </a>
+    </div>
+{% endblock %}

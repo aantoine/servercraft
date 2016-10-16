@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}
+    ServerCraft
+{% endblock %}
+{% block header %}
+    <span style="padding-left: 50px; padding-right: 50px">
+        Configuration
+    </span>
+{% endblock %}
+
+{% block body %}
+    {% if alert %}
+        <div class="alert alert-success col-lg-12">
+            <strong>Success!</strong> Config has been changed.
+            <a href="{{url_for('index')}}">Click here to return to the server list.</a>
+        </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-lg-4">
+            <form role="form" method="POST" action="{{ url_for('get_config') }}">
+                <div class="form-group">
+                    <label for="configPassword">Config Password</label>
+                    <input type="password" class="form-control" id="configPassword" name="configPassword" value="">
+                    <span id="configPasswordHelp" class="help-block">Protect the admin config with a password.</span>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

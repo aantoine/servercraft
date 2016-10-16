@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}
+    ServerCraft
+{% endblock %}
+{% block header %}
+    <span style="padding-left: 50px; padding-right: 50px">
+        Servers
+    </span>
+{% endblock %}
+
+{% block body %}
+    <div class="table-responsive">
+        <table class="my-table table table-hover">
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Name</th>
+                    <th>Version</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for server in servers %}
+                <tr>
+                    <td style="padding-left:20px;">
+                        <img
+                            {% if status[loop.index0] %}
+                                src="/static/img/online.png"
+                            {% else %}
+                                src="/static/img/offline.png"
+                            {% endif%}
+                            class="img-responsive" alt="Status"></td>
+                    <td>{{ server.name|e }}</td>
+                    <td>{{ server.jar.inner_name|e }}</td>
+                    <td style="width:35%;">
+                        <button style="width:70px;" type="button" class="btn btn-default"
+                            {% if status[loop.index0] %} disabled {% endif%}>Start</button>
+                        <button style="width:70px;" type="button" class="btn btn-default"
+                            {% if not status[loop.index0] %} disabled {% endif%}>Stop</button>
+                        <button style="width:70px;" type="button" class="btn btn-default"
+                            {% if not status[loop.index0] %} disabled {% endif%}>Restart</button>
+                        <a href="{{ (url_for('server', _server=server.id)) }}" class="btn btn-default"
+                           role="button" style="width:70px;">Edit</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
