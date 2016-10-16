@@ -53,6 +53,7 @@ def index(is_logged_in):
     servers = Server.select()
     status = []
     for _server in servers:
+        print _server.name
         status.append(is_online(execute([app.config['SCRIPT'], "status", _server.name])))
     if is_logged_in:
         return render_template('index_auth.html',
