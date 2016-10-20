@@ -6,10 +6,86 @@
 {% endblock %}
 {% block header %}
     <span>
-        Server Details <small>{{ server }}</small>
+        Server Details <small>{{ server.name }}</small>
     </span>
 {% endblock %}
 
 {% block body %}
-    Hola
+    <h4><span style="text-decoration: underline;">General</span></h4>
+    <form class="form-horizontal" method="POST" action="{{ url_for('server_general_update') }}">
+      <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" name="name" id="name" value="{{ server.name }}">
+          <input type='hidden' name='server_id' value='{{ server.id }}'>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label">Status</label>
+        <div class="col-sm-10">
+          <p class="form-control-static">
+              {% if status_online %}
+                Online
+              {% else %}
+                Offline
+              {% endif %}
+          </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Save</button>
+        </div>
+      </div>
+    </form>
+
+    <h4><span style="text-decoration: underline;">Java</span></h4>
+    <form class="form-horizontal" method="POST" action="{{ url_for('server_general_jar') }}">
+      <div class="form-group">
+        <label for="jar" class="col-sm-2 control-label">Jar</label>
+        <div class="col-sm-10">
+          <input type='hidden' name='server_id' value='{{ server.id }}'>
+          <select id="jar" name="jar" class="form-control">
+            {% for jar in jars %}
+                {% if server.jar.id == jar.id %}
+                    <option value="{{ jar.id|e }}" selected>{{ jar.name|e }}</option>
+                {% else %}
+                    <option value="{{ jar.id|e }}">{{ jar.name|e }}</option>
+                {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="size" class="col-sm-2 control-label">Size</label>
+        <div class="col-sm-10">
+          <select name="size" id="size" class="form-control">
+              {% if server.java_size == 1 %}
+                    <option selected value="1">MB</option>
+                    <option value="1024">GB</option>
+              {% else %}
+                    <option value="1">MB</option>
+                    <option selected value="1024">GB</option>
+              {% endif %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="xms" class="col-sm-2 control-label">Xms</label>
+        <div class="col-sm-10">
+          <input name="xms" type="text" class="form-control" id="xms" value="{{ server.xms }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="xmx" class="col-sm-2 control-label">Xmx</label>
+        <div class="col-sm-10">
+          <input name="xmx" type="text" class="form-control" id="xmx" value="{{ server.xmx }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Save</button>
+        </div>
+      </div>
+    </form>
 {% endblock %}

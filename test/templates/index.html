@@ -33,14 +33,7 @@
                     <td>{{ server.name|e }}</td>
                     <td>{{ server.jar.inner_name|e }}</td>
                     <td style="width:35%;">
-                        <button style="width:70px;" type="button" class="btn btn-default"
-                            {% if status[loop.index0] %} disabled {% endif%}>Start</button>
-                        <button style="width:70px;" type="button" class="btn btn-default"
-                            {% if not status[loop.index0] %} disabled {% endif%}>Stop</button>
-                        <button style="width:70px;" type="button" class="btn btn-default"
-                            {% if not status[loop.index0] %} disabled {% endif%}>Restart</button>
-                        <a href="{{ (url_for('server', _server=server.id)) }}" class="btn btn-default"
-                           role="button" style="width:70px;">Edit</a>
+
                     </td>
                 </tr>
             {% endfor %}

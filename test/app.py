@@ -13,5 +13,5 @@ app.config.update(dict(
     JARS_FOLDER=os.path.join(APP_ROOT, 'static/media/jars/'),
     SCRIPTS_FOLDER=os.path.join(APP_ROOT, 'static/media/scripts/'),
     SCRIPT="./script.sh",
-    SERVERS_FOLDER=os.path.join(APP_ROOT, 'static/media/servers/')
+    SERVERS_FOLDER=os.path.join(APP_ROOT, 'static/media/servers/'),
 ))

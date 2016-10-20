@@ -98,7 +98,7 @@
                     <ul class="nav navbar-nav side-nav">
                         {% for id, href, caption in navigation_bar %}
                             <li {% if id == active_page %} class="active" {% endif%}>
-                                <a href="{{ url_for(href, _server=server) }}">{{ caption|e }}</a>
+                                <a href="{{ url_for(href, _server=server.id) }}">{{ caption|e }}</a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -126,6 +126,21 @@
                     {% else %}
                         <div class="col-lg-12" style="padding-left: 65px" id="body">
                     {% endif %}
+                        {% if _error is defined and _error != None %}
+                            <div class="alert alert-danger">
+                                <strong>Error!</strong> {{ _error }}
+                            </div>
+                        {% endif %}
+                        {% if _warning is defined and _warning != None %}
+                            <div class="alert alert-warning-">
+                                <strong>Warning!</strong> {{ _warning }}
+                            </div>
+                        {% endif %}
+                        {% if _success is defined and _success != None %}
+                            <div class="alert alert-success">
+                                <strong>Success!</strong> {{ _success }}
+                            </div>
+                        {% endif %}
                         {% block body %}{% endblock %}
                     </div>
                 </div>
